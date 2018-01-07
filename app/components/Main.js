@@ -23,9 +23,9 @@ export default class Main extends React.Component {
     //pass down all props to Note component here:
 
     let notes = this.state.noteArray.map((val,key) => {
-      return <Note 
-      key={key} 
-      keyval={key} 
+      return <Note
+      key={key}
+      keyval={key}
       val={val}
       deleteMethod = {() => this.deleteNote(key)}/>
     });
@@ -38,7 +38,7 @@ export default class Main extends React.Component {
         </View>
 
         <ScrollView styles={styles.scrollContainer}>
-
+        {notes}
         </ScrollView>
 
         <View style={styles.footer}>
@@ -47,7 +47,7 @@ export default class Main extends React.Component {
           style={styles.textInput}
           onChangeText={(noteText) => this.setState({noteText})}
           value={this.state.noteText}
-          placeholder='note'
+          placeholder='Write message here'
           placeholderTextColor='white'>
           </TextInput>
 
@@ -64,9 +64,25 @@ export default class Main extends React.Component {
     );
   }
   addNote(){
-    alert('test');
+    if (this.state.noteText) {
+      // alert(this.state.noteText)
+      var d = new Date();
+      this.state.noteArray.push({
+        'date': d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate(),
+        'note': this.state.noteText
+      });
+      }
+      this.setState({noteArray: this.state.noteArray})
+      this.setState({noteText: ''});
+    }
+  deleteNote(key){
+    this.state.noteArray.splice(key,1);
+    this.setState({
+      noteArray: this.state.noteArray
+      })
+    }
   }
-}
+
 
 const styles = StyleSheet.create({
     container: {
